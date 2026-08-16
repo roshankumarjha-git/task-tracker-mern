@@ -1,0 +1,4 @@
+import { createContext, useContext, useEffect, useState } from 'react'; import api from '../services/api';
+const Auth = createContext();
+export function AuthProvider({ children }) { const [user, setUser] = useState(null), [loading, setLoading] = useState(true); useEffect(() => { (async () => { if (!localStorage.getItem('task-tracker-token')) return setLoading(false); try { setUser((await api.get('/auth/me')).data.user); } catch { localStorage.removeItem('task-tracker-token'); } finally { setLoading(false); } })(); }, []); const authenticate = (data) => { localStorage.setItem('task-tracker-token', data.token); setUser(data.user); }; const logout = () => { localStorage.removeItem('task-tracker-token'); setUser(null); }; return <Auth.Provider value={{ user, loading, authenticate, logout }}>{children}</Auth.Provider>; }
+export const useAuth = () => useContext(Auth);
