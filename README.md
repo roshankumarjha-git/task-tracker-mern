@@ -1,63 +1,241 @@
-# Taskflow — Task Tracker
+# TaskFlow — MERN Task Tracker
 
-A polished, secure MERN task manager built for personal productivity and portfolio use. Users can register, sign in, and manage only their own tasks with due dates, priorities, search, filtering, sorting, and completion tracking.
+A full-stack task management application built with the MERN stack. TaskFlow lets users securely manage their own tasks with authentication, priorities, statuses, due dates, search, filtering, sorting, and completion tracking.
+
+## Live Demo
+
+🌐 **Live Website:** https://task-tracker-mern-liart.vercel.app/
+
+💻 **GitHub:** https://github.com/roshankumarjha-git/task-tracker-mern
+
+⚙️ **Backend API:** https://task-tracker-mern-3tox.onrender.com
+
+> For the best experience, use TaskFlow on a laptop or PC.
 
 ## Features
 
-- JWT authentication with bcrypt password hashing and persisted sessions
-- Full task CRUD, completion toggle, ownership protection, and validation
-- Search by title/description, status and priority filters, and multiple sorting options
-- Live task statistics, overdue indicators, confirmation before deletion, responsive dashboard, and feedback states
-- MongoDB Atlas, Render, and Vercel-ready environment-based configuration
+- User registration and login
+- JWT authentication with bcrypt password hashing
+- Persistent login sessions
+- Create, edit, delete, and complete tasks
+- Task priorities and statuses
+- Due dates and overdue indicators
+- Search by title or description
+- Filter by status and priority
+- Multiple sorting options
+- Live dashboard statistics
+- User-specific task ownership protection
+- Responsive dashboard
+- Confirmation before deleting tasks
+- API health endpoint
+- Persistent data using MongoDB Atlas
 
-## Stack and architecture
+## Tech Stack
 
-React + Vite, React Router, Axios | Node.js, Express, MongoDB/Mongoose, JWT, bcryptjs.
+### Frontend
+- React
+- Vite
+- React Router
+- Axios
 
-`client/` is the React UI. `server/` contains routes, controllers, Mongoose models, middleware, and utility functions. REST endpoints live under `/api`.
+### Backend
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- JWT
+- bcryptjs
 
-## API
+### Deployment
+- Vercel — Frontend
+- Render — Backend/API
+- MongoDB Atlas — Database
+
+## Architecture
+
+```text
+                 ┌─────────────────────┐
+                 │       Vercel        │
+                 │   React + Vite UI   │
+                 └──────────┬──────────┘
+                            │
+                            │ REST API
+                            ▼
+                 ┌─────────────────────┐
+                 │       Render        │
+                 │  Node + Express API │
+                 └──────────┬──────────┘
+                            │
+                            ▼
+                 ┌─────────────────────┐
+                 │   MongoDB Atlas     │
+                 │      Database       │
+                 └─────────────────────┘
+```
+
+The `client/` directory contains the React frontend, while `server/` contains the Express API, routes, controllers, models, middleware, and utility functions.
+
+## API Endpoints
 
 | Method | Endpoint | Description |
-| --- | --- | --- |
+|---|---|---|
 | POST | `/api/auth/register` | Create an account |
 | POST | `/api/auth/login` | Sign in |
-| GET | `/api/auth/me` | Current authenticated user |
-| GET/POST | `/api/tasks` | List/create user tasks |
-| GET/PUT/DELETE | `/api/tasks/:id` | Read, update, delete a task |
-| PATCH | `/api/tasks/:id/status` | Change task status |
-| GET | `/api/health` | Service health check |
+| GET | `/api/auth/me` | Get current authenticated user |
+| GET | `/api/tasks` | Get user's tasks |
+| POST | `/api/tasks` | Create a task |
+| GET | `/api/tasks/:id` | Get a specific task |
+| PUT | `/api/tasks/:id` | Update a task |
+| DELETE | `/api/tasks/:id` | Delete a task |
+| PATCH | `/api/tasks/:id/status` | Update task status |
+| GET | `/api/health` | Check API health |
 
-## Local setup
+## Project Structure
+
+```text
+task-tracker-mern/
+│
+├── client/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── context/
+│   │   ├── pages/
+│   │   └── services/
+│   ├── package.json
+│   └── vite.config.js
+│
+├── server/
+│   ├── config/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── models/
+│   ├── routes/
+│   ├── utils/
+│   └── server.js
+│
+├── docs/
+│   └── dashboard.png
+│
+├── .env.example
+├── .gitignore
+├── package.json
+└── vercel.json
+```
+
+## Local Setup
+
+Clone the repository:
+
+```bash
+git clone https://github.com/roshankumarjha-git/task-tracker-mern.git
+cd task-tracker-mern
+```
+
+Install dependencies:
 
 ```bash
 npm install
 cd client && npm install && cd ..
+```
+
+Create the environment files:
+
+```bash
 cp .env.example .env
 cp client/.env.example client/.env
 ```
 
-Set these values in `.env`:
+Configure the backend `.env`:
 
 ```env
 PORT=5001
-MONGO_URI=your_mongodb_atlas_or_local_connection_string
-JWT_SECRET=use_a_long_random_secret
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_long_random_secret
 CLIENT_URL=http://localhost:5175
 ```
 
-Set `VITE_API_URL=http://localhost:5001/api` in `client/.env`.
+Configure `client/.env`:
 
-Run both applications with `npm run dev`, or separately with `npm run dev:server` and `npm run client`. Build the frontend with `npm run build`.
+```env
+VITE_API_URL=http://localhost:5001/api
+```
+
+Start the frontend and backend together:
+
+```bash
+npm run dev
+```
+
+Or run them separately:
+
+```bash
+npm run dev:server
+npm run client
+```
+
+Frontend:
+
+```text
+http://localhost:5175
+```
+
+Backend:
+
+```text
+http://localhost:5001
+```
+
+Build the frontend:
+
+```bash
+npm run build
+```
 
 ## Deployment
 
-Deploy `server/` through the root repository on Render using `npm run server` and configure `MONGO_URI`, `JWT_SECRET`, and `CLIENT_URL` (your Vercel URL). Deploy the repository root to Vercel: the root `vercel.json` installs dependencies from `client/`, builds with Vite from `client/`, and publishes `client/dist`. Set `VITE_API_URL` to the Render API URL plus `/api`.
+### Backend — Render
 
-## Screenshots
+The backend is deployed on Render.
 
-Add dashboard and auth screenshots here when publishing the repository.
+Start command:
 
-## Future improvements
+```bash
+node server/server.js
+```
 
-Task categories, recurring tasks, email reminders, tests with an in-memory MongoDB instance, and account settings.
+Required environment variables:
+
+```text
+MONGO_URI
+JWT_SECRET
+CLIENT_URL
+```
+
+`CLIENT_URL` should point to the deployed Vercel frontend.
+
+### Frontend — Vercel
+
+The React frontend is deployed on Vercel.
+
+The root-level `vercel.json` handles the monorepo setup by installing the frontend dependencies, building the Vite application, and publishing `client/dist`.
+
+Production API configuration:
+
+```env
+VITE_API_URL=https://task-tracker-mern-3tox.onrender.com/api
+```
+
+## Future Improvements
+
+- Task categories
+- Recurring tasks
+- Email reminders
+- Automated testing
+- Account settings
+- Additional productivity features
+
+## Author
+
+**Roshan Kumar Jha**
+
+Built while learning full-stack web development and experimenting with prompt-assisted development and debugging.
