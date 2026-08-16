@@ -52,7 +52,7 @@ Run both applications with `npm run dev`, or separately with `npm run dev:server
 
 ## Deployment
 
-Deploy `server/` through the root repository on Render using `npm run server` and configure `MONGO_URI`, `JWT_SECRET`, and `CLIENT_URL` (your Vercel URL). Deploy `client/` to Vercel with root directory `client`, build command `npm run build`, output `dist`, and `VITE_API_URL` pointing to the Render API URL plus `/api`.
+Deploy `server/` through the root repository on Render using `npm run server` and configure `MONGO_URI`, `JWT_SECRET`, and `CLIENT_URL` (your Vercel URL). Deploy the repository root to Vercel: the root `vercel.json` installs dependencies from `client/`, builds with Vite from `client/`, and publishes `client/dist`. Set `VITE_API_URL` to the Render API URL plus `/api`.
 
 ## Screenshots
 
